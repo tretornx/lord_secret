@@ -12,6 +12,7 @@
       cursor: grab;
       text-align: center;
       border-radius: 8px;
+      position: relative;
     }
     .console-item img {
       width: 100%;
@@ -97,7 +98,7 @@
       consoleDiv.innerHTML = `<img src="${console.img}" alt="${console.name}"><p>${console.name}</p>`;
       consoleDiv.addEventListener('dragstart', handleDragStart);
       consoleDiv.addEventListener('dragend', handleDragEnd);
-      consoleDiv.addEventListener('touchstart', handleTouchStart, { passive: true });
+      consoleDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
       consoleDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
       consoleDiv.addEventListener('touchend', handleTouchEnd);
       itemsContainer.appendChild(consoleDiv);
@@ -106,6 +107,8 @@
 
   let draggedItem = null;
   let originalIndex = null;
+  let touchOffsetX = 0;
+  let touchOffsetY = 0;
 
   function handleDragStart(event) {
     draggedItem = this;
@@ -123,24 +126,34 @@
   }
 
   function handleTouchStart(event) {
+    event.preventDefault();
     draggedItem = this;
     draggedItem.style.opacity = '0.5';
+    const touch = event.touches[0];
+    touchOffsetX = touch.clientX - draggedItem.getBoundingClientRect().left;
+    touchOffsetY = touch.clientY - draggedItem.getBoundingClientRect().top;
   }
 
   function handleTouchMove(event) {
     event.preventDefault();
     const touch = event.touches[0];
-    const afterElement = getDragAfterElement(document.getElementById('console-items'), touch.clientX);
+    draggedItem.style.position = 'absolute';
+    draggedItem.style.left = (touch.clientX - touchOffsetX) + 'px';
+    draggedItem.style.top = (touch.clientY - touchOffsetY) + 'px';
+  }
+
+  function handleTouchEnd(event) {
+    draggedItem.style.opacity = '1';
+    draggedItem.style.position = 'relative';
+    draggedItem.style.left = 'auto';
+    draggedItem.style.top = 'auto';
+    const afterElement = getDragAfterElement(document.getElementById('console-items'), event.changedTouches[0].clientX);
     const currentContainer = document.getElementById('console-items');
     if (afterElement == null) {
       currentContainer.appendChild(draggedItem);
     } else {
       currentContainer.insertBefore(draggedItem, afterElement);
     }
-  }
-
-  function handleTouchEnd() {
-    draggedItem.style.opacity = '1';
     draggedItem = null;
   }
 
