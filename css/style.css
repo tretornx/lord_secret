@@ -296,7 +296,13 @@ h1 {
 /* Styles pour les sections parallax */
 .parallax-section {
   position: relative;
-  height: 100vh;
+  height: 70vh; /* Ajustement de la hauteur pour réduire l'effet visuel imposant */
+  max-width: 90%; /* Limite de largeur pour éviter que l'image occupe tout l'écran */
+  margin: 20px auto; /* Centre et espace entre les sections */
+  border: 2px solid #4CAF50; /* Cadre autour de chaque image */
+  border-radius: 15px; /* Coins arrondis */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre douce pour effet visuel */
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -322,122 +328,12 @@ h1 {
   background-image: url('../img/image5.jpg');
 }
 
-/* Adaptation pour les petits écrans */
-@media screen and (max-width: 768px) {
-  h1 {
-    font-size: 2em;
-  }
-
-  #menu button, #menu a {
-    padding: 10px 15px;
-    font-size: 0.9em;
-  }
-
-  .result-item {
-    width: 90%;
-  }
-}
-/* Styles pour la vidéosurveillance */
-.video-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.camera-feed {
-  background-color: #1F1F1F;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  width: calc(50% - 40px); /* Deux caméras par ligne */
-  box-sizing: border-box;
-}
-
-.camera-feed img {
-  width: 100%;
-  border-radius: 5px;
-}
-
-.camera-feed p {
-  color: #FFFFFF;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 1.1em;
-}
-
-/* Adaptation pour les petits écrans */
-@media screen and (max-width: 768px) {
-  .camera-feed {
-    width: calc(100% - 40px); /* Une caméra par ligne sur mobile */
-  }
-}
-/* Styles spécifiques pour la vidéosurveillance */
-#videosurveillance-form {
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.form-with-icon {
-  position: relative;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.form-with-icon input {
-  width: 100%;
-  padding: 12px 12px 12px 40px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #1F1F1F;
-  color: #FFFFFF;
-}
-
-.form-with-icon input::placeholder {
-  color: #AAAAAA;
-}
-
-.form-with-icon img {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-}
-
-#video-container {
-  margin-top: 30px;
-  text-align: center;
-}
-
-#video-container iframe {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Images responsive pour la localisation */
-.responsive-image {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  margin: 0 auto;
-  display: block;
-}
-
-/* Ajustements pour les tablettes */
+/* Adaptation pour les tablettes */
 @media screen and (max-width: 1024px) {
-  .responsive-image {
-    max-width: 300px;
-  }
-
-  #content {
-    padding: 15px;
-  }
-
-  .ok-button {
-    padding: 10px 15px;
-    font-size: 1em;
+  .parallax-section {
+    height: 50vh; /* Ajustement de la hauteur pour les tablettes */
   }
 }
+
+/* Adaptation pour les petits écrans */
+@media screen and (max-width: 768px)
