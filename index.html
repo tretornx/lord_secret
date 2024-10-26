@@ -97,12 +97,17 @@
       consoleDiv.innerHTML = `<img src="${console.img}" alt="${console.name}"><p>${console.name}</p>`;
       consoleDiv.addEventListener('dragstart', handleDragStart);
       consoleDiv.addEventListener('dragend', handleDragEnd);
+      consoleDiv.addEventListener('touchstart', handleTouchStart, { passive: true });
+      consoleDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
+      consoleDiv.addEventListener('touchend', handleTouchEnd);
       itemsContainer.appendChild(consoleDiv);
     });
   }
 
   let draggedItem = null;
   let originalIndex = null;
+  let touchOffsetX = 0;
+  let touchOffsetY = 0;
 
   function handleDragStart(event) {
     draggedItem = this;
@@ -117,6 +122,33 @@
       this.style.opacity = '1';
       draggedItem = null;
     }, 0);
+  }
+
+  function handleTouchStart(event) {
+    draggedItem = this;
+    const touch = event.touches[0];
+    touchOffsetX = touch.clientX - draggedItem.getBoundingClientRect().left;
+    touchOffsetY = touch.clientY - draggedItem.getBoundingClientRect().top;
+    draggedItem.style.position = 'absolute';
+    draggedItem.style.zIndex = '1000';
+    moveAt(touch.pageX, touch.pageY);
+  }
+
+  function handleTouchMove(event) {
+    event.preventDefault();
+    const touch = event.touches[0];
+    moveAt(touch.pageX, touch.pageY);
+  }
+
+  function handleTouchEnd() {
+    draggedItem.style.position = 'static';
+    draggedItem.style.zIndex = '';
+    draggedItem = null;
+  }
+
+  function moveAt(pageX, pageY) {
+    draggedItem.style.left = pageX - touchOffsetX + 'px';
+    draggedItem.style.top = pageY - touchOffsetY + 'px';
   }
 
   document.getElementById('console-items').addEventListener('dragover', function(event) {
