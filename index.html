@@ -17,17 +17,10 @@
       width: 100%;
       height: auto;
     }
-    #console-puzzle {
-      display: flex;
-      justify-content: space-around;
-      gap: 15px;
-      margin: 20px;
-      flex-wrap: wrap;
-    }
     #console-items {
       display: flex;
       gap: 15px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: center;
       margin: 20px;
     }
@@ -57,7 +50,6 @@
 <!-- Conteneur pour le puzzle des consoles -->
 <div id="console-puzzle-container" style="display: none;">
   <h2>Placez les consoles portables Nintendo dans l'ordre chronologique de gauche à droite</h2>
-  <div id="console-puzzle"></div>
   <div id="console-items"></div>
   <button id="validate-order">Valider l'ordre</button>
 </div>
@@ -93,20 +85,8 @@
     ];
 
     const shuffledConsoles = [...consoles].sort(() => Math.random() - 0.5);
-    const puzzleContainer = document.getElementById('console-puzzle');
     const itemsContainer = document.getElementById('console-items');
-    puzzleContainer.innerHTML = '';
     itemsContainer.innerHTML = '';
-
-    // Create empty slots for the consoles in chronological order
-    for (let i = 0; i < consoles.length; i++) {
-      const puzzleSlot = document.createElement('div');
-      puzzleSlot.classList.add('puzzle-slot');
-      puzzleSlot.dataset.index = i;
-      puzzleSlot.addEventListener('dragover', handleDragOver);
-      puzzleSlot.addEventListener('drop', handleDrop);
-      puzzleContainer.appendChild(puzzleSlot);
-    }
 
     // Create draggable console items
     shuffledConsoles.forEach(console => {
@@ -122,9 +102,11 @@
   }
 
   let draggedItem = null;
+  let originalIndex = null;
 
   function handleDragStart(event) {
     draggedItem = this;
+    originalIndex = [...this.parentNode.children].indexOf(this);
     setTimeout(() => {
       this.style.opacity = '0.5';
     }, 0);
@@ -137,31 +119,41 @@
     }, 0);
   }
 
-  function handleDragOver(event) {
+  document.getElementById('console-items').addEventListener('dragover', function(event) {
     event.preventDefault();
-  }
-
-  function handleDrop(event) {
-    event.preventDefault();
-    if (!this.hasChildNodes() && draggedItem) {
-      this.appendChild(draggedItem);
+    const afterElement = getDragAfterElement(this, event.clientX);
+    const currentContainer = document.getElementById('console-items');
+    if (afterElement == null) {
+      currentContainer.appendChild(draggedItem);
+    } else {
+      currentContainer.insertBefore(draggedItem, afterElement);
     }
+  });
+
+  function getDragAfterElement(container, x) {
+    const draggableElements = [...container.querySelectorAll('.console-item:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = x - box.left - box.width / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
   }
 
   document.getElementById('validate-order').addEventListener('click', function() {
-    const items = document.querySelectorAll('.puzzle-slot .console-item');
+    const items = document.querySelectorAll('#console-items .console-item');
     let correct = true;
     const consolesOrder = [1989, 1998, 2001, 2004, 2011, 2019];
 
-    if (items.length !== consolesOrder.length) {
-      correct = false;
-    } else {
-      items.forEach((item, index) => {
-        if (parseInt(item.dataset.year) !== consolesOrder[index]) {
-          correct = false;
-        }
-      });
-    }
+    items.forEach((item, index) => {
+      if (parseInt(item.dataset.year) !== consolesOrder[index]) {
+        correct = false;
+      }
+    });
 
     if (correct) {
       alert('Bravo ! L\'indice c\'est le nom de ton fidèle compagnon');
