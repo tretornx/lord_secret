@@ -416,3 +416,28 @@ h1 {
   max-width: 100%;
   height: auto;
 }
+
+/* Images responsive pour la localisation */
+.responsive-image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Ajustements pour les tablettes */
+@media screen and (max-width: 1024px) {
+  .responsive-image {
+    max-width: 300px;
+  }
+
+  #content {
+    padding: 15px;
+  }
+
+  .ok-button {
+    padding: 10px 15px;
+    font-size: 1em;
+  }
+}
