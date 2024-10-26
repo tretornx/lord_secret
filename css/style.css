@@ -305,7 +305,7 @@ h1 {
 
 .responsive-image {
   width: 100%;
-  max-width: 500px;
+  max-width: 800px;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }

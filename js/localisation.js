@@ -1,58 +1,24 @@
 // Mise à jour du fichier localisation.js pour rendre les images responsives et intégrer les modifications CSS
 
 // Fonction appelée lors du clic sur l'onglet "Localiser" du menu
+// Fonction pour afficher les images dès le clic sur "Localiser"
 function showLocaliser() {
-  // Rediriger vers la page localisation.html
-  window.location.href = 'localisation.html';
+  const contentDiv = document.getElementById('content');
+  const initialImagesDiv = document.getElementById('initial-images');
+  const accessTriangulation = document.getElementById('access-triangulation');
 
-  // Utiliser l'événement window.onload pour appeler displayImages une fois la page chargée
-  window.onload = function() {
-    if (window.location.pathname.includes('localisation.html')) {
-      displayImages();
-    }
-  };
+  // Réinitialise le contenu et affiche les images
+  contentDiv.innerHTML = initialImagesDiv.outerHTML + accessTriangulation.outerHTML;
 }
 
-// Fonction appelée lors du chargement de la page pour afficher les images
+// Charger les images dès le chargement de `localisation.html`
 window.onload = function() {
-  if (window.location.pathname.includes('localisation.html')) {
-    displayImages();
+  const contentDiv = document.getElementById('content');
+  if (contentDiv) {
+    showLocaliser();
   }
 };
 
-// Fonction pour afficher les images sur la page de localisation
-function displayImages() {
-  var resultsDiv = document.getElementById("initial-images");
-
-  // Vider les images précédentes (s'il y en a)
-  resultsDiv.innerHTML = '';
-
-  // Ajouter les images sans effet parallax
-  var images = [
-    'img/image1.jpg',
-    'img/image2.jpg',
-    'img/image3.jpg',
-    'img/image4.jpg',
-    'img/image5.jpg'
-  ];
-
-  images.forEach(function(imageSrc) {
-    var imgElement = document.createElement('img');
-    imgElement.src = imageSrc;
-    imgElement.alt = 'Image localisation';
-    imgElement.classList.add('responsive-image'); // Classe pour rendre l'image responsive
-
-    resultsDiv.appendChild(imgElement);
-  });
-}
-
-
-// Fonction appelée lors du chargement de la page localisation.html pour afficher les images
-window.onload = function() {
-  if (window.location.pathname.includes('triangulation.html')) {
-    displayImages();
-  }
-};
 
 // Fonction pour afficher les images sur la page de localisation
 function displayImages() {

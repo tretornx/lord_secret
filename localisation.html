@@ -2,36 +2,43 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Localisation</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<!-- En-tête -->
 <header>
   <h1>Localisation</h1>
+  <!-- Menu en bandeau horizontal -->
+  <nav id="menu">
+    <ul>
+      <li><a href="dashboard.html">Accueil</a></li>
+      <li><button onclick="showLocaliser()">Localiser</button></li>
+      <li><button onclick="showVideosurveillance()">Vidéosurveillance</button></li>
+      <li><button onclick="showMenusDivers()">Menus divers</button></li>
+    </ul>
+  </nav>
 </header>
 
-<main>
-  <section id="initial-images">
-    <!-- Les images de localisation apparaîtront ici -->
+<!-- Contenu principal -->
+<div id="content">
+  <h2>Images de localisation</h2>
+  <!-- Section d'images de localisation -->
+  <div id="initial-images">
     <img src="img/image1.jpg" alt="Image localisation 1" class="responsive-image">
     <img src="img/image2.jpg" alt="Image localisation 2" class="responsive-image">
     <img src="img/image3.jpg" alt="Image localisation 3" class="responsive-image">
     <img src="img/image4.jpg" alt="Image localisation 4" class="responsive-image">
     <img src="img/image5.jpg" alt="Image localisation 5" class="responsive-image">
-  </section>
-
+  </div>
+  <!-- Bouton pour accéder à la triangulation -->
   <section id="access-triangulation">
     <button id="triangulation-button" onclick="window.location.href='triangulation.html'">Accéder à la triangulation</button>
   </section>
-</main>
+</div>
 
+<!-- Scripts -->
+<script src="js/dashboard.js"></script>
 <script src="js/localisation.js"></script>
-<script>
-  // Fonction pour initialiser les images sur la page de localisation
-  window.onload = function() {
-    initialDisplayImages();
-  };
-</script>
 </body>
 </html>
