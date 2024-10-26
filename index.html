@@ -30,6 +30,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
     .year-label {
       text-align: center;
@@ -118,96 +119,47 @@
       consoleDiv.dataset.year = console.year;
       consoleDiv.draggable = true;
       consoleDiv.innerHTML = `<img src="${console.img}" alt="${console.name}"><p>${console.name}</p>`;
-      puzzleContainer.appendChild(consoleDiv);
+      document.body.appendChild(consoleDiv);
+      addDragAndDropEvents(consoleDiv);
     });
-    addDragAndDropEvents();
   }
 
-  function addDragAndDropEvents() {
-    const items = document.querySelectorAll('.console-item');
+  function addDragAndDropEvents(item) {
     const slots = document.querySelectorAll('.puzzle-slot');
-    items.forEach(item => {
-      item.addEventListener('dragstart', handleDragStart);
-      item.addEventListener('dragover', handleDragOver);
-      item.addEventListener('drop', handleDrop);
-      item.addEventListener('touchstart', handleTouchStart, { passive: true });
-      item.addEventListener('touchmove', handleTouchMove, { passive: false });
-      item.addEventListener('touchend', handleTouchEnd);
-    });
+    item.addEventListener('dragstart', handleDragStart);
+    item.addEventListener('dragend', handleDragEnd);
+
     slots.forEach(slot => {
       slot.addEventListener('dragover', handleDragOver);
-      slot.addEventListener('drop', handleDropSlot);
+      slot.addEventListener('drop', handleDrop);
     });
   }
 
   let draggedItem = null;
-  let touchStartX = 0;
-  let touchStartY = 0;
 
   function handleDragStart(event) {
     draggedItem = this;
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/plain', '');
-    this.classList.add('dragging');
+    setTimeout(() => {
+      this.style.display = 'none';
+    }, 0);
   }
 
-  function handleTouchStart(event) {
-    draggedItem = this;
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
-    this.classList.add('dragging');
-  }
-
-  function handleTouchMove(event) {
-    event.preventDefault();
-    const touch = event.touches[0];
-    const deltaX = touch.clientX - touchStartX;
-    const deltaY = touch.clientY - touchStartY;
-    draggedItem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-  }
-
-  function handleTouchEnd(event) {
-    const touchedElement = document.elementFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
-    if (touchedElement && touchedElement.classList.contains('puzzle-slot') && !touchedElement.hasChildNodes()) {
-      touchedElement.appendChild(draggedItem);
-      draggedItem.style.transform = 'none';
-    }
-    draggedItem.classList.remove('dragging');
-    draggedItem = null;
+  function handleDragEnd() {
+    setTimeout(() => {
+      this.style.display = 'block';
+      draggedItem = null;
+    }, 0);
   }
 
   function handleDragOver(event) {
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
-  }
-
-  function handleDropSlot(event) {
-    event.preventDefault();
-    if (!this.hasChildNodes() && draggedItem) {
-      this.appendChild(draggedItem);
-      draggedItem.classList.remove('dragging');
-      draggedItem.style.transform = 'none';
-      draggedItem = null;
-    }
   }
 
   function handleDrop(event) {
     event.preventDefault();
-    if (draggedItem !== this) {
-      const puzzleContainer = document.getElementById('console-puzzle');
-      const items = Array.from(puzzleContainer.children);
-      const draggedIndex = items.indexOf(draggedItem);
-      const targetIndex = items.indexOf(this);
-
-      if (draggedIndex > targetIndex) {
-        puzzleContainer.insertBefore(draggedItem, this);
-      } else {
-        puzzleContainer.insertBefore(draggedItem, this.nextSibling);
-      }
+    if (!this.hasChildNodes() && draggedItem) {
+      this.appendChild(draggedItem);
     }
-    draggedItem.classList.remove('dragging');
-    draggedItem.style.transform = 'none';
-    draggedItem = null;
   }
 
   document.getElementById('validate-order').addEventListener('click', function() {
