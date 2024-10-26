@@ -44,7 +44,7 @@
       <input type="password" id="password" placeholder="Entrez votre mot de passe" required>
     </div>
     <button type="button" id="login-button">Connexion</button>
-    <p><a href="#" id="hint-link">Mot de passe oublié ?</a></p>
+
   </form>
 </div>
 
@@ -95,7 +95,7 @@
       consoleDiv.classList.add('console-item');
       consoleDiv.dataset.year = console.year;
       consoleDiv.draggable = true;
-      consoleDiv.innerHTML = `<img src="${console.img}" alt="${console.name}"><p>${console.name}</p>`;
+      consoleDiv.innerHTML = `<img src="${console.img}" alt="">`;
       consoleDiv.addEventListener('dragstart', handleDragStart);
       consoleDiv.addEventListener('dragend', handleDragEnd);
       consoleDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
