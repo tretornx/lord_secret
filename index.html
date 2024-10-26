@@ -44,7 +44,7 @@
       <input type="password" id="password" placeholder="Entrez votre mot de passe" required>
     </div>
     <button type="button" id="login-button">Connexion</button>
-
+    <p><a href="#" id="hint-link">Mot de passe oublié ?</a></p>
   </form>
 </div>
 
@@ -77,12 +77,12 @@
 
   function createPuzzle() {
     const consoles = [
-      { name: 'Game Boy', year: 1989, img: 'img/gameboy.jpg' },
-      { name: 'Game Boy Color', year: 1998, img: 'img/gameboycolor.jpg' },
-      { name: 'Game Boy Advance', year: 2001, img: 'img/gameboyadvance.jpg' },
-      { name: 'Nintendo DS', year: 2004, img: 'img/nintendods.jpg' },
-      { name: 'Nintendo 3DS', year: 2011, img: 'img/nintendo3ds.jpg' },
-      { name: 'Nintendo Switch Lite', year: 2019, img: 'img/switchlite.jpg' }
+      { name: '', year: 1989, img: 'img/gameboy.jpg' },
+      { name: '', year: 1998, img: 'img/gameboycolor.jpg' },
+      { name: '', year: 2001, img: 'img/gameboyadvance.jpg' },
+      { name: '', year: 2004, img: 'img/nintendods.jpg' },
+      { name: '', year: 2011, img: 'img/nintendo3ds.jpg' },
+      { name: '', year: 2019, img: 'img/switchlite.jpg' }
     ];
 
     const shuffledConsoles = [...consoles].sort(() => Math.random() - 0.5);
@@ -95,7 +95,7 @@
       consoleDiv.classList.add('console-item');
       consoleDiv.dataset.year = console.year;
       consoleDiv.draggable = true;
-      consoleDiv.innerHTML = `<img src="${console.img}" alt="">`;
+      consoleDiv.innerHTML = `<img src="${console.img}" alt="${console.name}"><p>${console.name}</p>`;
       consoleDiv.addEventListener('dragstart', handleDragStart);
       consoleDiv.addEventListener('dragend', handleDragEnd);
       consoleDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
