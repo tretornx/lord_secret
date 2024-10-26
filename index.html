@@ -28,11 +28,11 @@
   <form id="login-form">
     <div class="input-group">
       <label for="email">Identifiant (email)</label>
-      <input type="email" id="email" placeholder="Entrez votre email">
+      <input type="email" id="email" placeholder="Entrez votre email" required>
     </div>
     <div class="input-group">
       <label for="password">Mot de passe</label>
-      <input type="password" id="password" placeholder="Entrez votre mot de passe">
+      <input type="password" id="password" placeholder="Entrez votre mot de passe" required>
     </div>
     <button type="button" id="login-button">Connexion</button>
     <p><a href="#" id="hint-link">Mot de passe oublié ?</a></p>
@@ -53,6 +53,17 @@
     document.getElementById('login-container').style.display = 'none';
     document.getElementById('console-puzzle-container').style.display = 'block';
     createPuzzle();
+  });
+
+  document.getElementById('login-button').addEventListener('click', function() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    // Ici, on suppose que la validation est réussie (à ajuster selon vos besoins)
+    if (email && password) {
+      window.location.href = 'dashboard.html';
+    } else {
+      alert('Veuillez entrer un identifiant et un mot de passe valides.');
+    }
   });
 
   function createPuzzle() {
@@ -133,7 +144,7 @@
     });
 
     if (correct) {
-      alert('Bravo ! Voici votre indice pour le mot de passe.');
+      alert('Bravo ! L\'indice c\'est le nom de ton fidèle compagnon');
       document.getElementById('console-puzzle-container').style.display = 'none';
       document.getElementById('login-container').style.display = 'block';
     } else {
