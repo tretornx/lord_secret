@@ -56,7 +56,16 @@
 <!-- Conteneur pour le puzzle des consoles -->
 <div id="console-puzzle-container" style="display: none;">
   <h2>Placez les consoles portables Nintendo dans l'ordre chronologique</h2>
-  <div id="console-puzzle"></div>
+
+  <div id="console-puzzle">
+    <style>
+      .year-label {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 5px;
+      }
+    </style>
+  </div>
   <button id="validate-order">Valider l'ordre</button>
 </div>
 
@@ -94,10 +103,15 @@
     const puzzleContainer = document.getElementById('console-puzzle');
     puzzleContainer.innerHTML = '';
 
-    shuffledConsoles.forEach(() => {
+    shuffledConsoles.forEach(console => {
       const puzzleSlot = document.createElement('div');
       puzzleSlot.classList.add('puzzle-slot');
       puzzleContainer.appendChild(puzzleSlot);
+
+      const yearLabel = document.createElement('div');
+      yearLabel.classList.add('year-label');
+      yearLabel.textContent = console.year;
+      puzzleContainer.appendChild(yearLabel);
     });
 
     shuffledConsoles.forEach(console => {
@@ -158,6 +172,7 @@
     const touchedElement = document.elementFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
     if (touchedElement && touchedElement.classList.contains('puzzle-slot') && !touchedElement.hasChildNodes()) {
       touchedElement.appendChild(draggedItem);
+      draggedItem.style.transform = 'none';
     }
     draggedItem.style.transform = 'none';
     draggedItem.classList.remove('dragging');
