@@ -106,8 +106,6 @@
 
   let draggedItem = null;
   let originalIndex = null;
-  let touchOffsetX = 0;
-  let touchOffsetY = 0;
 
   function handleDragStart(event) {
     draggedItem = this;
@@ -126,29 +124,24 @@
 
   function handleTouchStart(event) {
     draggedItem = this;
-    const touch = event.touches[0];
-    touchOffsetX = touch.clientX - draggedItem.getBoundingClientRect().left;
-    touchOffsetY = touch.clientY - draggedItem.getBoundingClientRect().top;
-    draggedItem.style.position = 'absolute';
-    draggedItem.style.zIndex = '1000';
-    moveAt(touch.pageX, touch.pageY);
+    draggedItem.style.opacity = '0.5';
   }
 
   function handleTouchMove(event) {
     event.preventDefault();
     const touch = event.touches[0];
-    moveAt(touch.pageX, touch.pageY);
+    const afterElement = getDragAfterElement(document.getElementById('console-items'), touch.clientX);
+    const currentContainer = document.getElementById('console-items');
+    if (afterElement == null) {
+      currentContainer.appendChild(draggedItem);
+    } else {
+      currentContainer.insertBefore(draggedItem, afterElement);
+    }
   }
 
   function handleTouchEnd() {
-    draggedItem.style.position = 'static';
-    draggedItem.style.zIndex = '';
+    draggedItem.style.opacity = '1';
     draggedItem = null;
-  }
-
-  function moveAt(pageX, pageY) {
-    draggedItem.style.left = pageX - touchOffsetX + 'px';
-    draggedItem.style.top = pageY - touchOffsetY + 'px';
   }
 
   document.getElementById('console-items').addEventListener('dragover', function(event) {
