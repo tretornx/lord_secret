@@ -147,7 +147,7 @@
   function handleDragStart(event) {
     draggedItem = this;
     event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/html', this.outerHTML);
+    event.dataTransfer.setData('text/plain', '');
     this.classList.add('dragging');
   }
 
@@ -163,20 +163,15 @@
     const touch = event.touches[0];
     const deltaX = touch.clientX - touchStartX;
     const deltaY = touch.clientY - touchStartY;
-    draggedItem.style.position = 'absolute';
-    draggedItem.style.left = `${touch.clientX - 50}px`;
-    draggedItem.style.top = `${touch.clientY - 50}px`;
+    draggedItem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
   }
 
   function handleTouchEnd(event) {
     const touchedElement = document.elementFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
     if (touchedElement && touchedElement.classList.contains('puzzle-slot') && !touchedElement.hasChildNodes()) {
       touchedElement.appendChild(draggedItem);
-      draggedItem.style.position = 'static';
-      draggedItem.style.left = 'auto';
-      draggedItem.style.top = 'auto';
+      draggedItem.style.transform = 'none';
     }
-    draggedItem.style.transform = 'none';
     draggedItem.classList.remove('dragging');
     draggedItem = null;
   }
@@ -191,6 +186,7 @@
     if (!this.hasChildNodes() && draggedItem) {
       this.appendChild(draggedItem);
       draggedItem.classList.remove('dragging');
+      draggedItem.style.transform = 'none';
       draggedItem = null;
     }
   }
@@ -210,6 +206,7 @@
       }
     }
     draggedItem.classList.remove('dragging');
+    draggedItem.style.transform = 'none';
     draggedItem = null;
   }
 
