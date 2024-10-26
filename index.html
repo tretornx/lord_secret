@@ -22,21 +22,7 @@
       justify-content: space-around;
       gap: 15px;
       margin: 20px;
-    }
-    .puzzle-slot {
-      width: 120px;
-      height: 150px;
-      border: 2px dashed #ccc;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .year-label {
-      text-align: center;
-      font-weight: bold;
-      margin-top: 5px;
+      flex-wrap: wrap;
     }
     #console-items {
       display: flex;
@@ -70,7 +56,7 @@
 
 <!-- Conteneur pour le puzzle des consoles -->
 <div id="console-puzzle-container" style="display: none;">
-  <h2>Placez les consoles portables Nintendo dans l'ordre chronologique</h2>
+  <h2>Placez les consoles portables Nintendo dans l'ordre chronologique de gauche à droite</h2>
   <div id="console-puzzle"></div>
   <div id="console-items"></div>
   <button id="validate-order">Valider l'ordre</button>
@@ -112,21 +98,15 @@
     puzzleContainer.innerHTML = '';
     itemsContainer.innerHTML = '';
 
-    // Create slots for the consoles in chronological order
-    consoles.forEach(console => {
+    // Create empty slots for the consoles in chronological order
+    for (let i = 0; i < consoles.length; i++) {
       const puzzleSlot = document.createElement('div');
       puzzleSlot.classList.add('puzzle-slot');
-      puzzleSlot.dataset.year = console.year;
+      puzzleSlot.dataset.index = i;
       puzzleSlot.addEventListener('dragover', handleDragOver);
       puzzleSlot.addEventListener('drop', handleDrop);
-
-      const yearLabel = document.createElement('div');
-      yearLabel.classList.add('year-label');
-      yearLabel.textContent = console.year;
-      puzzleSlot.appendChild(yearLabel);
-
       puzzleContainer.appendChild(puzzleSlot);
-    });
+    }
 
     // Create draggable console items
     shuffledConsoles.forEach(console => {
@@ -146,13 +126,13 @@
   function handleDragStart(event) {
     draggedItem = this;
     setTimeout(() => {
-      this.style.display = 'none';
+      this.style.opacity = '0.5';
     }, 0);
   }
 
   function handleDragEnd() {
     setTimeout(() => {
-      this.style.display = 'block';
+      this.style.opacity = '1';
       draggedItem = null;
     }, 0);
   }
