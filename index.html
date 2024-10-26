@@ -77,12 +77,11 @@
 
   function createPuzzle() {
     const consoles = [
-      { name: '', year: 1989, img: 'img/gameboy.jpg' },
-      { name: '', year: 1998, img: 'img/gameboycolor.jpg' },
-      { name: '', year: 2001, img: 'img/gameboyadvance.jpg' },
-      { name: '', year: 2004, img: 'img/nintendods.jpg' },
-      { name: '', year: 2011, img: 'img/nintendo3ds.jpg' },
-      { name: '', year: 2019, img: 'img/switchlite.jpg' }
+      { name: '', year: 1, img: 'img/distrieau.png' },
+      { name: '', year: 1100, img: 'img/lunette.jpg' },
+      { name: '', year: 1714, img: 'img/machineecrire.jpg' },
+      { name: '', year: 1873, img: 'img/jean.jpg' },
+      { name: '', year: 1873, img: 'img/disque.jpg' }
     ];
 
     const shuffledConsoles = [...consoles].sort(() => Math.random() - 0.5);
@@ -185,7 +184,7 @@
   document.getElementById('validate-order').addEventListener('click', function() {
     const items = document.querySelectorAll('#console-items .console-item');
     let correct = true;
-    const consolesOrder = [1989, 1998, 2001, 2004, 2011, 2019];
+    const consolesOrder = [1, 1100, 1714, 1873, 1877];
 
     items.forEach((item, index) => {
       if (parseInt(item.dataset.year) !== consolesOrder[index]) {
