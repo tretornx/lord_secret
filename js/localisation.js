@@ -1,4 +1,87 @@
-// Fonction appelée lors de la soumission du formulaire
+// Mise à jour du fichier localisation.js pour rendre les images responsives et intégrer les modifications CSS
+
+// Fonction appelée lors du clic sur l'onglet "Localiser" du menu
+function showLocaliser() {
+  // Rediriger vers la page localisation.html
+  window.location.href = 'localisation.html';
+
+  // Utiliser l'événement window.onload pour appeler displayImages une fois la page chargée
+  window.onload = function() {
+    if (window.location.pathname.includes('localisation.html')) {
+      displayImages();
+    }
+  };
+}
+
+// Fonction appelée lors du chargement de la page pour afficher les images
+window.onload = function() {
+  if (window.location.pathname.includes('localisation.html')) {
+    displayImages();
+  }
+};
+
+// Fonction pour afficher les images sur la page de localisation
+function displayImages() {
+  var resultsDiv = document.getElementById("initial-images");
+
+  // Vider les images précédentes (s'il y en a)
+  resultsDiv.innerHTML = '';
+
+  // Ajouter les images sans effet parallax
+  var images = [
+    'img/image1.jpg',
+    'img/image2.jpg',
+    'img/image3.jpg',
+    'img/image4.jpg',
+    'img/image5.jpg'
+  ];
+
+  images.forEach(function(imageSrc) {
+    var imgElement = document.createElement('img');
+    imgElement.src = imageSrc;
+    imgElement.alt = 'Image localisation';
+    imgElement.classList.add('responsive-image'); // Classe pour rendre l'image responsive
+
+    resultsDiv.appendChild(imgElement);
+  });
+}
+
+
+// Fonction appelée lors du chargement de la page localisation.html pour afficher les images
+window.onload = function() {
+  if (window.location.pathname.includes('triangulation.html')) {
+    displayImages();
+  }
+};
+
+// Fonction pour afficher les images sur la page de localisation
+function displayImages() {
+  var resultsDiv = document.getElementById("results");
+
+  // Afficher les images supplémentaires sans effet parallax
+  var images = [
+    'img/image1.jpg',
+    'img/image2.jpg',
+    'img/image3.jpg',
+    'img/image4.jpg',
+    'img/image5.jpg'
+  ];
+
+  images.forEach(function(imageSrc) {
+    var imageContainer = document.createElement('div');
+    imageContainer.className = 'image-container';
+
+    var imgElement = document.createElement('img');
+    imgElement.src = imageSrc;
+    imgElement.alt = 'Image triangulation';
+    imgElement.classList.add('responsive-image'); // Ajout de la classe pour rendre l'image responsive
+
+    imageContainer.appendChild(imgElement);
+    resultsDiv.appendChild(imageContainer);
+  });
+}
+
+// Fonction appelée lors de la soumission du formulaire de localisation
 function startTriangulation(event) {
   event.preventDefault(); // Empêche le rechargement de la page
 
@@ -66,8 +149,9 @@ function displayResults(phoneNumber) {
     resultItem.className = 'result-item';
 
     var antennaIcon = document.createElement('img');
-    antennaIcon.src = 'img/antenna_icon.svg';
+    antennaIcon.src = './img/antenna_icon.svg'; // Correction du chemin de l'image
     antennaIcon.alt = 'Antenne';
+    antennaIcon.classList.add('responsive-image'); // Ajout de la classe pour rendre l'image responsive
 
     var antennaInfo = document.createElement('div');
     antennaInfo.className = 'antenna-info';
@@ -100,10 +184,6 @@ function generateRandomAntennas() {
 }
 
 // Fonctions du menu pour rediriger vers dashboard.html
-function showLocaliser() {
-  window.location.href = 'dashboard.html';
-}
-
 function showVideosurveillance() {
   window.location.href = 'dashboard.html';
 }

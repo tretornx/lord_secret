@@ -2,46 +2,36 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Localisation</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<!-- En-tête -->
 <header>
   <h1>Localisation</h1>
-  <!-- Menu en bandeau horizontal -->
-  <nav id="menu">
-    <ul>
-      <li><a href="dashboard.html">Accueil</a></li>
-      <li><button onclick="showLocaliser()">Localiser</button></li>
-      <li><button onclick="showVideosurveillance()">Vidéosurveillance</button></li>
-      <li><button onclick="showMenusDivers()">Menus divers</button></li>
-    </ul>
-  </nav>
 </header>
 
-<!-- Contenu principal -->
-<div id="content">
-  <h2>Localiser un appareil</h2>
-  <p>Entrez le numéro de téléphone à localiser :</p>
-  <!-- Formulaire de localisation -->
-  <form id="localiser-form" onsubmit="startTriangulation(event)">
-    <div class="form-with-icon">
-      <input type="text" id="phone-number" placeholder="Numéro de téléphone">
-      <img src="img/phone_icon.svg" alt="Icône téléphone">
-    </div>
-    <!-- Bouton Localiser -->
-    <button type="submit" class="ok-button">
-      <img src="img/target_icon.svg" alt="Cible" class="button-icon">
-      Localiser
-    </button>
-  </form>
-  <div id="animation"></div>
-  <div id="results"></div>
-</div>
+<main>
+  <section id="initial-images">
+    <!-- Les images de localisation apparaîtront ici -->
+    <img src="img/image1.jpg" alt="Image localisation 1" class="responsive-image">
+    <img src="img/image2.jpg" alt="Image localisation 2" class="responsive-image">
+    <img src="img/image3.jpg" alt="Image localisation 3" class="responsive-image">
+    <img src="img/image4.jpg" alt="Image localisation 4" class="responsive-image">
+    <img src="img/image5.jpg" alt="Image localisation 5" class="responsive-image">
+  </section>
 
-<!-- Scripts -->
-<script src="js/dashboard.js"></script>
+  <section id="access-triangulation">
+    <button id="triangulation-button" onclick="window.location.href='triangulation.html'">Accéder à la triangulation</button>
+  </section>
+</main>
+
 <script src="js/localisation.js"></script>
+<script>
+  // Fonction pour initialiser les images sur la page de localisation
+  window.onload = function() {
+    initialDisplayImages();
+  };
+</script>
 </body>
 </html>

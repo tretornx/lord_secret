@@ -9,19 +9,30 @@ function showLocaliser() {
     existingBackToTop.remove();
   }
 
+  // Titre de la section Localisation
+  let title = document.createElement('h1');
+  title.textContent = 'Localisation';
+  document.getElementById("content").appendChild(title);
+
   // Créer les sections parallax
   for (let i = 1; i <= 5; i++) {
     let section = document.createElement('div');
     section.className = 'parallax-section';
+    section.style.backgroundImage = `url('img/image${i}.jpg')`;
     document.getElementById("content").appendChild(section);
   }
 
-  // Ajouter le lien vers la page de localisation
-  let link = document.createElement('a');
-  link.id = 'localisation-link';
-  link.href = 'localisation.html';
-  link.textContent = 'Accéder à la localisation';
-  document.getElementById("content").appendChild(link);
+  // Ajouter le bouton pour accéder à la triangulation
+  let accessSection = document.createElement('section');
+  accessSection.id = 'access-triangulation';
+  let button = document.createElement('button');
+  button.id = 'triangulation-button';
+  button.textContent = 'Accéder à la triangulation';
+  button.onclick = function() {
+    window.location.href = 'triangulation.html';
+  };
+  accessSection.appendChild(button);
+  document.getElementById("content").appendChild(accessSection);
 
   // Ajouter le bouton "Retour en haut" s'il n'existe pas déjà
   if (!document.querySelector('.back-to-top')) {
