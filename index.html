@@ -16,6 +16,20 @@
       height: auto;
       border-radius: 8px;
     }
+    #console-puzzle {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 20px;
+    }
+    .puzzle-slot {
+      width: 120px;
+      height: 150px;
+      border: 2px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -80,6 +94,12 @@
     const puzzleContainer = document.getElementById('console-puzzle');
     puzzleContainer.innerHTML = '';
 
+    shuffledConsoles.forEach(() => {
+      const puzzleSlot = document.createElement('div');
+      puzzleSlot.classList.add('puzzle-slot');
+      puzzleContainer.appendChild(puzzleSlot);
+    });
+
     shuffledConsoles.forEach(console => {
       const consoleDiv = document.createElement('div');
       consoleDiv.classList.add('console-item');
@@ -93,6 +113,7 @@
 
   function addDragAndDropEvents() {
     const items = document.querySelectorAll('.console-item');
+    const slots = document.querySelectorAll('.puzzle-slot');
     items.forEach(item => {
       item.addEventListener('dragstart', handleDragStart);
       item.addEventListener('dragover', handleDragOver);
@@ -100,6 +121,10 @@
       item.addEventListener('touchstart', handleTouchStart, { passive: true });
       item.addEventListener('touchmove', handleTouchMove, { passive: false });
       item.addEventListener('touchend', handleTouchEnd);
+    });
+    slots.forEach(slot => {
+      slot.addEventListener('dragover', handleDragOver);
+      slot.addEventListener('drop', handleDropSlot);
     });
   }
 
@@ -131,17 +156,8 @@
 
   function handleTouchEnd(event) {
     const touchedElement = document.elementFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
-    if (touchedElement && touchedElement.classList.contains('console-item') && draggedItem !== touchedElement) {
-      const puzzleContainer = document.getElementById('console-puzzle');
-      const items = Array.from(puzzleContainer.children);
-      const draggedIndex = items.indexOf(draggedItem);
-      const targetIndex = items.indexOf(touchedElement);
-
-      if (draggedIndex > targetIndex) {
-        puzzleContainer.insertBefore(draggedItem, touchedElement);
-      } else {
-        puzzleContainer.insertBefore(draggedItem, touchedElement.nextSibling);
-      }
+    if (touchedElement && touchedElement.classList.contains('puzzle-slot') && !touchedElement.hasChildNodes()) {
+      touchedElement.appendChild(draggedItem);
     }
     draggedItem.style.transform = 'none';
     draggedItem.classList.remove('dragging');
@@ -151,6 +167,15 @@
   function handleDragOver(event) {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
+  }
+
+  function handleDropSlot(event) {
+    event.preventDefault();
+    if (!this.hasChildNodes() && draggedItem) {
+      this.appendChild(draggedItem);
+      draggedItem.classList.remove('dragging');
+      draggedItem = null;
+    }
   }
 
   function handleDrop(event) {
@@ -172,7 +197,7 @@
   }
 
   document.getElementById('validate-order').addEventListener('click', function() {
-    const items = document.querySelectorAll('.console-item');
+    const items = document.querySelectorAll('.puzzle-slot .console-item');
     let correct = true;
     const consolesOrder = [1989, 1998, 2001, 2004, 2011, 2019];
 
