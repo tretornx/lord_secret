@@ -68,22 +68,31 @@ function handleDrop(event) {
 function checkOrder() {
   const items = document.querySelectorAll('.console-item');
   let correct = true;
+  const sortedConsoles = [...consoles].sort((a, b) => a.year - b.year);
   items.forEach((item, index) => {
-    if (parseInt(item.dataset.year) !== consoles[index].year) {
+    if (parseInt(item.dataset.year) !== sortedConsoles[index].year) {
       correct = false;
     }
   });
   if (correct) {
-    alert('Bravo ! Vous avez mis les consoles dans le bon ordre !');
     setTimeout(() => {
-      window.location.href = 'dashboard.html';
-    }, 1000);
+      setTimeout(() => { alert('Bravo ! Voici votre indice pour le mot de passe.'); document.getElementById('console-puzzle-container').style.display = 'none'; document.getElementById('login-container').style.display = 'block'; }, 500);
+    }, 500);
   } else {
     alert('Dommage, réessayez !');
   }
 }
 
-window.onload = () => {
-  createPuzzle();
-  document.getElementById('validate-order').addEventListener('click', checkOrder);
-};
+window.addEventListener('load', () => {
+  const hintLink = document.getElementById('hint-link');
+  hintLink.addEventListener('click', function(event) {
+    event.preventDefault();
+    document.getElementById('login-container').style.display = 'none';
+    document.getElementById('console-puzzle-container').style.display = 'block';
+    createPuzzle();
+  });
+  const validateButton = document.getElementById('validate-order');
+  if (validateButton) {
+    validateButton.addEventListener('click', checkOrder);
+  }
+});
