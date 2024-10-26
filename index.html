@@ -98,14 +98,12 @@
       item.addEventListener('dragover', handleDragOver);
       item.addEventListener('drop', handleDrop);
       item.addEventListener('touchstart', handleTouchStart, { passive: true });
-      item.addEventListener('touchmove', handleTouchMove, { passive: false });
       item.addEventListener('touchend', handleTouchEnd);
     });
   }
 
   let draggedItem = null;
-  let touchStartX = 0;
-  let touchStartY = 0;
+  let touchStartElement = null;
 
   function handleDragStart(event) {
     draggedItem = this;
@@ -116,17 +114,8 @@
 
   function handleTouchStart(event) {
     draggedItem = this;
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
+    touchStartElement = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY);
     this.classList.add('dragging');
-  }
-
-  function handleTouchMove(event) {
-    event.preventDefault();
-    const touch = event.touches[0];
-    const deltaX = touch.clientX - touchStartX;
-    const deltaY = touch.clientY - touchStartY;
-    draggedItem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
   }
 
   function handleTouchEnd(event) {
@@ -143,9 +132,9 @@
         puzzleContainer.insertBefore(draggedItem, touchedElement.nextSibling);
       }
     }
-    draggedItem.style.transform = 'none';
     draggedItem.classList.remove('dragging');
     draggedItem = null;
+    touchStartElement = null;
   }
 
   function handleDragOver(event) {
