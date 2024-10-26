@@ -97,16 +97,55 @@
       item.addEventListener('dragstart', handleDragStart);
       item.addEventListener('dragover', handleDragOver);
       item.addEventListener('drop', handleDrop);
+      item.addEventListener('touchstart', handleTouchStart, { passive: true });
+      item.addEventListener('touchmove', handleTouchMove, { passive: false });
+      item.addEventListener('touchend', handleTouchEnd);
     });
   }
 
   let draggedItem = null;
+  let touchStartX = 0;
+  let touchStartY = 0;
 
   function handleDragStart(event) {
     draggedItem = this;
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.setData('text/html', this.outerHTML);
     this.classList.add('dragging');
+  }
+
+  function handleTouchStart(event) {
+    draggedItem = this;
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+    this.classList.add('dragging');
+  }
+
+  function handleTouchMove(event) {
+    event.preventDefault();
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+    draggedItem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+  }
+
+  function handleTouchEnd(event) {
+    const touchedElement = document.elementFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+    if (touchedElement && touchedElement.classList.contains('console-item') && draggedItem !== touchedElement) {
+      const puzzleContainer = document.getElementById('console-puzzle');
+      const items = Array.from(puzzleContainer.children);
+      const draggedIndex = items.indexOf(draggedItem);
+      const targetIndex = items.indexOf(touchedElement);
+
+      if (draggedIndex > targetIndex) {
+        puzzleContainer.insertBefore(draggedItem, touchedElement);
+      } else {
+        puzzleContainer.insertBefore(draggedItem, touchedElement.nextSibling);
+      }
+    }
+    draggedItem.style.transform = 'none';
+    draggedItem.classList.remove('dragging');
+    draggedItem = null;
   }
 
   function handleDragOver(event) {
