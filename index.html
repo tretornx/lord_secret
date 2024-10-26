@@ -17,8 +17,8 @@
       border-radius: 8px;
     }
     #console-puzzle {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
+      justify-content: space-around;
       gap: 15px;
       margin: 20px;
     }
@@ -27,8 +27,14 @@
       height: 150px;
       border: 2px dashed #ccc;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+    }
+    .year-label {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -56,16 +62,7 @@
 <!-- Conteneur pour le puzzle des consoles -->
 <div id="console-puzzle-container" style="display: none;">
   <h2>Placez les consoles portables Nintendo dans l'ordre chronologique</h2>
-
-  <div id="console-puzzle">
-    <style>
-      .year-label {
-        text-align: center;
-        font-weight: bold;
-        margin-top: 5px;
-      }
-    </style>
-  </div>
+  <div id="console-puzzle"></div>
   <button id="validate-order">Valider l'ordre</button>
 </div>
 
@@ -106,12 +103,13 @@
     shuffledConsoles.forEach(console => {
       const puzzleSlot = document.createElement('div');
       puzzleSlot.classList.add('puzzle-slot');
+      puzzleSlot.dataset.year = console.year;
       puzzleContainer.appendChild(puzzleSlot);
 
       const yearLabel = document.createElement('div');
       yearLabel.classList.add('year-label');
       yearLabel.textContent = console.year;
-      puzzleContainer.appendChild(yearLabel);
+      puzzleSlot.appendChild(yearLabel);
     });
 
     shuffledConsoles.forEach(console => {
@@ -165,14 +163,18 @@
     const touch = event.touches[0];
     const deltaX = touch.clientX - touchStartX;
     const deltaY = touch.clientY - touchStartY;
-    draggedItem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    draggedItem.style.position = 'absolute';
+    draggedItem.style.left = `${touch.clientX - 50}px`;
+    draggedItem.style.top = `${touch.clientY - 50}px`;
   }
 
   function handleTouchEnd(event) {
     const touchedElement = document.elementFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
     if (touchedElement && touchedElement.classList.contains('puzzle-slot') && !touchedElement.hasChildNodes()) {
       touchedElement.appendChild(draggedItem);
-      draggedItem.style.transform = 'none';
+      draggedItem.style.position = 'static';
+      draggedItem.style.left = 'auto';
+      draggedItem.style.top = 'auto';
     }
     draggedItem.style.transform = 'none';
     draggedItem.classList.remove('dragging');
