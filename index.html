@@ -38,6 +38,13 @@
       font-weight: bold;
       margin-top: 5px;
     }
+    #console-items {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px;
+    }
   </style>
 </head>
 <body>
@@ -139,13 +146,13 @@
   function handleDragStart(event) {
     draggedItem = this;
     setTimeout(() => {
-      this.style.opacity = '0.5';
+      this.style.display = 'none';
     }, 0);
   }
 
   function handleDragEnd() {
     setTimeout(() => {
-      this.style.opacity = '1';
+      this.style.display = 'block';
       draggedItem = null;
     }, 0);
   }
