@@ -1,3 +1,55 @@
+// Fonction pour afficher la section Vidéosurveillance avec vérification d'accès
+function showVideosurveillance() {
+  document.getElementById("content").innerHTML = `
+    <h2>Vérification d'accès</h2>
+    <form id="access-form" onsubmit="checkAccess(event)">
+      <label for="brand">Marque :</label>
+      <input type="text" id="brand" placeholder="Entrez la marque" required>
+
+      <label for="serial-number">Numéro de série :</label>
+      <input type="text" id="serial-number" placeholder="Entrez le numéro de série" required>
+
+      <button type="submit">Valider</button>
+    </form>
+
+    <!-- Zone d'affichage des vidéos, masquée par défaut -->
+    <div id="video-section" style="display: none;">
+      <h3>Vidéos</h3>
+      <video controls width="400">
+        <source src="media/LS-Couloir-2.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la lecture de cette vidéo.
+      </video>
+      <video controls width="400">
+        <source src="media/LS-Porte-Cave-2.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la lecture de cette vidéo.
+      </video>
+      <video controls width="400">
+        <source src="media/LS-Porte-Cave.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la lecture de cette vidéo.
+      </video>
+    </div>
+  `;
+}
+
+// Fonction pour vérifier la marque et le numéro de série pour la page Vidéosurveillance
+function checkAccess(event) {
+  event.preventDefault(); // Empêche le rechargement de la page
+
+  // Récupération des valeurs des champs
+  const brand = document.getElementById('brand').value.trim();
+  const serialNumber = document.getElementById('serial-number').value.trim();
+
+  // Vérification de la marque et du numéro de série
+  if (brand.toLowerCase() === 'samsung' && serialNumber === '12345') {
+    // Affiche la section des vidéos si les informations sont correctes
+    document.getElementById('video-section').style.display = 'block';
+  } else {
+    // Affiche un message d'erreur sinon
+    alert("Marque ou numéro de série incorrect. Accès refusé.");
+    document.getElementById('video-section').style.display = 'none';
+  }
+}
+
 // Fonction pour afficher la nouvelle section "Localiser"
 function showLocaliser() {
   // Effacer le contenu précédent
@@ -58,141 +110,7 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Fonctions pour les autres menus
-function showVideosurveillance() {
-  // Effacer le contenu précédent
-  document.getElementById("content").innerHTML = "";
-
-  // Titre de la section
-  var title = document.createElement('h2');
-  title.textContent = 'Vidéosurveillance';
-  document.getElementById("content").appendChild(title);
-
-  // Formulaire de saisie
-  var form = document.createElement('form');
-  form.id = 'videosurveillance-form';
-  form.onsubmit = function(event) {
-    event.preventDefault();
-    displayCameraVideo();
-  };
-
-  // Champ pour la marque
-  var brandGroup = createInputGroup('brand', 'Marque de la caméra', 'img/brand_icon.svg');
-  form.appendChild(brandGroup);
-
-  // Champ pour le numéro de série
-  var serialGroup = createInputGroup('serial', 'Numéro de série', 'img/serial_icon.svg');
-  form.appendChild(serialGroup);
-
-  // Champ pour la position géographique
-  var positionGroup = createInputGroup('position', 'Position géographique', 'img/location_icon.svg');
-  form.appendChild(positionGroup);
-
-  // Bouton de soumission
-  var submitButton = document.createElement('button');
-  submitButton.type = 'submit';
-  submitButton.className = 'ok-button';
-  submitButton.innerHTML = `
-        <img src="img/search_icon.svg" alt="Rechercher" class="button-icon">
-        Accéder à la caméra
-    `;
-  form.appendChild(submitButton);
-
-  document.getElementById("content").appendChild(form);
-
-  // Zone pour afficher la vidéo
-  var videoContainer = document.createElement('div');
-  videoContainer.id = 'video-container';
-  document.getElementById("content").appendChild(videoContainer);
-}
-
-// Fonction pour créer un groupe de saisie avec icône
-function createInputGroup(id, placeholder, iconSrc) {
-  var group = document.createElement('div');
-  group.className = 'form-with-icon';
-
-  var input = document.createElement('input');
-  input.type = 'text';
-  input.id = id;
-  input.placeholder = placeholder;
-
-  var icon = document.createElement('img');
-  icon.src = iconSrc;
-  icon.alt = placeholder;
-
-  group.appendChild(input);
-  group.appendChild(icon);
-
-  return group;
-}
-
-// Fonction pour afficher la vidéo correspondante
-function displayCameraVideo() {
-  var brand = document.getElementById('brand').value.trim().toLowerCase();
-  var serial = document.getElementById('serial').value.trim();
-  var position = document.getElementById('position').value.trim().toLowerCase();
-
-  var videoContainer = document.getElementById('video-container');
-  videoContainer.innerHTML = '';
-
-  // Logique pour déterminer quelle vidéo afficher
-  var videoId = getVideoId(brand, serial, position);
-
-  if (videoId) {
-    // Afficher la vidéo YouTube correspondante
-    var iframe = document.createElement('iframe');
-    iframe.width = '560';
-    iframe.height = '315';
-    iframe.src = 'https://www.youtube.com/embed/' + videoId;
-    iframe.title = 'Caméra de vidéosurveillance';
-    iframe.frameBorder = '0';
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-    iframe.allowFullscreen = true;
-
-    videoContainer.appendChild(iframe);
-  } else {
-    // Afficher un message d'erreur
-    var errorMessage = document.createElement('p');
-    errorMessage.textContent = 'Aucune caméra ne correspond aux informations saisies.';
-    videoContainer.appendChild(errorMessage);
-  }
-}
-
-// Fonction pour déterminer le code vidéo en fonction des entrées
-function getVideoId(brand, serial, position) {
-  // Exemple de mappage entre les entrées et les vidéos YouTube
-  var cameras = [
-    {
-      brand: 'sony',
-      serial: '123456',
-      position: 'paris',
-      videoId: 'dQw4w9WgXcQ' // Remplacez par un vrai ID de vidéo YouTube
-    },
-    {
-      brand: 'canon',
-      serial: '654321',
-      position: 'lyon',
-      videoId: 'eY52Zsg-KVI' // Remplacez par un vrai ID de vidéo YouTube
-    },
-    // Ajoutez d'autres caméras ici
-  ];
-
-  // Rechercher la caméra correspondante
-  for (var i = 0; i < cameras.length; i++) {
-    if (
-      cameras[i].brand === brand &&
-      cameras[i].serial === serial &&
-      cameras[i].position === position
-    ) {
-      return cameras[i].videoId;
-    }
-  }
-
-  // Si aucune correspondance trouvée
-  return null;
-}
-
-
+// Fonction pour afficher le contenu des Menus Divers
 function showMenusDivers() {
   // Effacer le contenu précédent
   document.getElementById("content").innerHTML = `
@@ -200,3 +118,23 @@ function showMenusDivers() {
         <!-- Contenu des menus divers -->
     `;
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  const page = document.body.getAttribute("data-page");
+  const menu = document.getElementById("menu");
+
+  // Crée un menu de base avec "Accueil", "Localiser", "Vidéosurveillance", et "Menus divers"
+  let menuContent = `
+    <ul>
+      <li><a href="dashboard.html">Accueil</a></li>
+      <li><a href="localisation.html">Localiser</a></li>
+      <li><a href="videosurveillance.html">Vidéosurveillance</a></li>
+      <li><a href="dashboard.html">Menus divers</a></li> <!-- Lien Menus divers inclus -->
+    </ul>
+  `;
+
+  // Injecte ce menu de base dans l'élément #menu de toutes les pages
+  menu.innerHTML = menuContent;
+});
+
+

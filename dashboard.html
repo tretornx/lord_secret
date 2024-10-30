@@ -3,25 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard Pirate</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style_general.css">
+  <link rel="stylesheet" href="css/style_background.css">
+  <link rel="stylesheet" href="css/style_login.css">
+  <link rel="stylesheet" href="css/style_menu.css">
+  <link rel="stylesheet" href="css/style_components.css">
+  <link rel="stylesheet" href="css/style_results.css">
+  <link rel="stylesheet" href="css/style_videos.css">
 </head>
-<body>
+<body data-page="dashboard">
 <!-- En-tête -->
 <header>
-  <h1>Tableau de Bord du Pirate</h1>
   <!-- Menu en bandeau horizontal -->
   <nav id="menu">
     <ul>
-      <li><button onclick="window.location.href='localisation.html'">Localiser</button></li>
-      <li><button onclick="showVideosurveillance()">Vidéosurveillance</button></li>
-      <li><button onclick="showMenusDivers()">Menus divers</button></li>
+      <nav id="menu">
+        <ul>
+          <li><a href="dashboard.html" class="active">Accueil</a></li>
+          <li><a href="localisation.html">Localiser</a></li>
+          <li><a href="videosurveillance.html">Vidéosurveillance</a></li>
+          <li><a href="dashboard.html">Menus divers</a></li> <!-- Lien Menus divers inclus -->
+        </ul>
+      </nav>
+
     </ul>
   </nav>
 </header>
 
 <!-- Contenu principal -->
 <div id="content">
-  <p>Choisissez une option pour commencer.</p>
+  <p class="page-title" style="text-align: center;">Hello Jack.</p>
 </div>
 
 <!-- Scripts -->

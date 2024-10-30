@@ -8,7 +8,7 @@ function login() {
   var password = document.getElementById("password").value;
 
   // Vérification si les identifiants correspondent à ceux attendus
-  if (email === "coucou@gmail.com" && password === "Medor") {
+  if (email === "jackjeff31@gmail.com" && password === "Mycroft2005") {
     // Affichage d'un message de succès
     alert("Connexion réussie !");
     // Redirection vers la page du tableau de bord

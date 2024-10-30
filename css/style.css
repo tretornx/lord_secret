@@ -331,82 +331,69 @@ h1 {
 }
 
 /* Styles pour la vidéosurveillance */
-.video-grid {
+.video-gallery {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
 }
 
-.camera-feed {
-  background-color: #1F1F1F;
-  margin: 10px;
-  padding: 10px;
+.video-item {
+  border: 2px solid #4CAF50; /* Couleur de contour */
   border-radius: 10px;
-  width: calc(50% - 40px); /* Deux caméras par ligne */
-  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
 }
 
-.camera-feed img {
+.video-item video {
   width: 100%;
-  border-radius: 5px;
+  height: auto;
 }
 
-.camera-feed p {
-  color: #FFFFFF;
+.video-item:hover {
+  transform: scale(1.02);
+}
+
+.video-title {
   text-align: center;
-  margin-top: 10px;
-  font-size: 1.1em;
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+/* Bouton retour en haut */
+.back-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  display: none;
+  background-color: #4CAF50; /* Vert */
+  color: #FFFFFF;
+  padding: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5em;
+  z-index: 1000;
+}
+
+.back-to-top:hover {
+  background-color: #388E3C; /* Vert foncé */
 }
 
 /* Adaptation pour les petits écrans */
 @media screen and (max-width: 768px) {
-  .camera-feed {
-    width: calc(100% - 40px); /* Une caméra par ligne sur mobile */
+  h1 {
+    font-size: 2em;
   }
-}
 
-/* Styles spécifiques pour la vidéosurveillance */
-#videosurveillance-form {
-  max-width: 500px;
-  margin: 0 auto;
-}
+  #menu button, #menu a {
+    padding: 10px 15px;
+    font-size: 0.9em;
+  }
 
-.form-with-icon {
-  position: relative;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.form-with-icon input {
-  width: 100%;
-  padding: 12px 12px 12px 40px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #1F1F1F;
-  color: #FFFFFF;
-}
-
-.form-with-icon input::placeholder {
-  color: #AAAAAA;
-}
-
-.form-with-icon img {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-}
-
-#video-container {
-  margin-top: 30px;
-  text-align: center;
-}
-
-#video-container iframe {
-  max-width: 100%;
-  height: auto;
+  .video-item {
+    width: calc(100% - 40px); /* Une vidéo par ligne sur mobile */
+  }
 }

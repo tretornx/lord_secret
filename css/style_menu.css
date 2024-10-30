@@ -1,0 +1,46 @@
+/* style_menu.css */
+
+#menu {
+  background-color: #1F1F1F;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+#menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+#menu li {
+  margin: 0;
+}
+
+#menu button, #menu a {
+  padding: 15px 25px;
+  background-color: transparent;
+  color: #FFFFFF;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 1em;
+  text-decoration: none;
+  transition: border-bottom 0.3s;
+}
+
+#menu button:hover, #menu a:hover {
+  border-bottom: 2px solid #4CAF50; /* Vert */
+}
+
+@media screen and (max-width: 768px) {
+  #menu button, #menu a {
+    padding: 10px 15px;
+    font-size: 0.9em;
+  }
+}
+#menu .active {
+  border-bottom: 2px solid #4CAF50; /* Vert vif */
+}

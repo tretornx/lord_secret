@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Vidéosurveillance</title>
+  <link rel="stylesheet" href="css/style_general.css">
+  <link rel="stylesheet" href="css/style_background.css">
+  <link rel="stylesheet" href="css/style_login.css">
+  <link rel="stylesheet" href="css/style_menu.css">
+  <link rel="stylesheet" href="css/style_components.css">
+  <link rel="stylesheet" href="css/style_results.css">
+  <link rel="stylesheet" href="css/style_videos.css">
+</head>
+<body>
+<header>
+  <nav id="menu">
+    <ul>
+      <li><a href="dashboard.html">Accueil</a></li>
+      <li><a href="localisation.html">Localiser</a></li>
+      <li><a href="videosurveillance.html" class="active">Vidéosurveillance</a></li>
+      <li><a href="dashboard.html">Menus divers</a></li> <!-- Lien Menus divers inclus -->
+    </ul>
+  </nav>
+</header>
+
+<div id="content">
+  <h2 class="page-title">Vérification d'accès</h2>
+  <form id="access-form" onsubmit="checkAccess(event)">
+    <label for="brand">Marque :</label>
+    <input type="text" id="brand" placeholder="Entrez la marque" required>
+
+    <label for="serial-number">Numéro de série :</label>
+    <input type="text" id="serial-number" placeholder="Entrez le numéro de série" required>
+
+    <button type="submit">Valider</button>
+  </form>
+
+  <div id="video-section" style="display: none;">
+    <h3>Vidéos</h3>
+    <div class="video-gallery">
+      <div class="video-item">
+        <video controls>
+          <source src="media/LS-Couloir-2.mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la lecture de cette vidéo.
+        </video>
+        <p class="video-title">Couloir</p>
+      </div>
+      <div class="video-item">
+        <video controls>
+          <source src="media/LS-Porte-Cave.mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la lecture de cette vidéo.
+        </video>
+        <p class="video-title">Porte Cave</p>
+      </div>
+      <div class="video-item">
+        <video controls>
+          <source src="media/LS-Porte-Cave-2.mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la lecture de cette vidéo.
+        </video>
+        <p class="video-title">Porte Cave 2</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Fonction d'initialisation du formulaire et de la section vidéo
+    const form = document.getElementById("access-form");
+    const videoSection = document.getElementById("video-section");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const brand = document.getElementById("brand").value;
+      const serialNumber = document.getElementById("serial-number").value;
+
+      if (brand && serialNumber) {
+        videoSection.style.display = "block";
+      } else {
+        alert("Veuillez remplir tous les champs.");
+        videoSection.style.display = "none";
+      }
+    });
+  });
+</script>
+</body>
+</html>

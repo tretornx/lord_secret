@@ -89,12 +89,12 @@ function displayResults(phoneNumber) {
   resultsDiv.innerHTML = '';
 
   // Vérifier si le numéro saisi est celui attendu
-  if (phoneNumber === "0637508233") {
+  if (phoneNumber === "0614687205") {
     // Afficher les résultats spécifiques
     var antennas = [
-      { name: "Antenne 3A", distance: 150 },
-      { name: "Antenne 6C", distance: 300 },
-      { name: "Antenne 4B", distance: 50 }
+      { name: "Antenne 3", distance: 150 },
+      { name: "Antenne 6", distance: 300 },
+      { name: "Antenne 4", distance: 450 }
     ];
   } else {
     // Générer aléatoirement un résultat
@@ -132,7 +132,7 @@ function displayResults(phoneNumber) {
 
 // Fonction pour générer des antennes et distances aléatoires
 function generateRandomAntennas() {
-  var antennaNames = ["Antenne 1A", "Antenne 2B", "Antenne 3C", "Antenne 4D", "Antenne 5E", "Antenne 6F"];
+  var antennaNames = ["Antenne 1", "Antenne 2", "Antenne 3", "Antenne 4", "Antenne 5", "Antenne 6"];
   var antennas = [];
 
   for (var i = 0; i < 3; i++) {
